@@ -195,7 +195,7 @@ nav .link-styled {
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding-top: 60px;
+  padding-top: 25px;
   position: relative;
   z-index: 1;
   min-height: 831px;
