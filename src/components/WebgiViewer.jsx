@@ -63,11 +63,14 @@ const WebgiViewer = forwardRef((props, ref) => {
   const canvasContainerRef = useRef(null);
   const [isMobile, setIsMobile] = useState(null);
 
-  const memoizedScrollAnimation = useCallback((position, target, onUpdate) => {
-    if (position && target && onUpdate) {
-      scrollAnimation(position, target, onUpdate);
-    }
-  }, []);
+  const memoizedScrollAnimation = useCallback(
+    (position, target, isMobile, onUpdate) => {
+      if (position && target && onUpdate) {
+        scrollAnimation(position, target, isMobile, onUpdate);
+      }
+    },
+    []
+  );
 
   const setupViewer = useCallback(async () => {
     // Initialize the viewer
@@ -76,6 +79,9 @@ const WebgiViewer = forwardRef((props, ref) => {
     });
 
     setViewerRef(viewer);
+
+    const isMobileOrTablet = mobileAndTabletCheck();
+    setIsMobile(isMobileOrTablet);
 
     // Add some plugins
     const manager = await viewer.addPlugin(AssetManagerPlugin);
@@ -104,6 +110,12 @@ const WebgiViewer = forwardRef((props, ref) => {
     viewer.getPlugin(TonemapPlugin).config.clipBackground = true;
     viewer.scene.activeCamera.setCameraOptions({ controlsEnabled: false });
 
+    if (isMobileOrTablet) {
+      position.set(-16.7, 1.17, 11.7);
+      target.set(0, 1.37, 0);
+      props.contentRef.current.className = "mobile-or-tablet";
+    }
+
     window.scrollTo(0, 0);
 
     let NeedsUpdate = true;
@@ -120,7 +132,7 @@ const WebgiViewer = forwardRef((props, ref) => {
       }
     });
 
-    memoizedScrollAnimation(position, target, onUpdate);
+    memoizedScrollAnimation(position, target, isMobileOrTablet, onUpdate);
   }, []);
 
   useEffect(() => {
