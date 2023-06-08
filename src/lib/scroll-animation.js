@@ -27,7 +27,6 @@ export const scrollAnimation = (position, target, isMobile, onUpdate) => {
         scrub: 2,
         immediateRender: false,
       },
-      onUpdate,
     })
     .to(".jumbotron-section", {
       opacity: 0,
@@ -75,7 +74,6 @@ export const scrollAnimation = (position, target, isMobile, onUpdate) => {
         scrub: 2,
         immediateRender: false,
       },
-      onUpdate,
     })
     .to(".display-section", {
       opacity: 1,
